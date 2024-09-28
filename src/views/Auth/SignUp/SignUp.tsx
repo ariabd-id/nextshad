@@ -1,5 +1,4 @@
-import Link from 'next/link'
-
+import { Button } from '@nextshad/components/ui/button'
 import {
   Card,
   CardContent,
@@ -9,7 +8,7 @@ import {
 } from '@nextshad/components/ui/card'
 import { Input } from '@nextshad/components/ui/input'
 import { Label } from '@nextshad/components/ui/label'
-import { Button } from '@nextshad/components/ui/button'
+import Link from 'next/link'
 
 export const description =
   "A sign up form with first name, last name, email and password inside a card. There's an option to sign up with GitHub and a link to login if you already have an account"
