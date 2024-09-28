@@ -1,3 +1,3 @@
-import { Home } from '@nextshad/views/Home'
+import { SignIn } from '@nextshad/views/Auth/SignIn'
 
-export default Home
+export default SignIn
