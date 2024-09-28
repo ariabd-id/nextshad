@@ -1,7 +1,13 @@
 {
   "name": "nexshad",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "author": {
+    "name": "ariabd",
+    "url": "https://github.com/ariabd",
+    "email": "ariabghf@gmail.com"
+  },
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
