@@ -1,5 +1,6 @@
-import Link from 'next/link'
-
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FInput } from '@nextshad/components/molecules'
+import { Button } from '@nextshad/components/ui/button'
 import {
   Card,
   CardContent,
@@ -7,58 +8,59 @@ import {
   CardHeader,
   CardTitle,
 } from '@nextshad/components/ui/card'
-import { Input } from '@nextshad/components/ui/input'
-import { Label } from '@nextshad/components/ui/label'
-import { Button } from '@nextshad/components/ui/button'
+import { Form } from '@nextshad/components/ui/form'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import type { z } from 'zod'
 
-export const description =
-  "A login form with email and password. There's an option to login with Google and a link to sign up if you don't have an account."
+import { loginSchema } from './schema'
 
 function LoginForm() {
+  const { push } = useRouter()
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+  })
+
+  function onSubmit(values: z.infer<typeof loginSchema>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    console.log(values)
+    form.reset()
+
+    push('/dashboard')
+  }
+
   return (
-    <Card className='mx-auto max-w-sm'>
+    <Card className='w-full max-w-lg'>
       <CardHeader>
         <CardTitle className='text-2xl'>Login</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          Enter your username and password below to login to your account.
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <div className='grid gap-4'>
-          <div className='grid gap-2'>
-            <Label htmlFor='email'>Email</Label>
-            <Input
-              id='email'
-              type='email'
-              placeholder='m@example.com'
-              required
-            />
-          </div>
-          <div className='grid gap-2'>
-            <div className='flex items-center'>
-              <Label htmlFor='password'>Password</Label>
-              <Link href='#' className='ml-auto inline-block text-sm underline'>
-                Forgot your password?
-              </Link>
-            </div>
-            <Input id='password' type='password' required />
-          </div>
-          <Button type='submit' className='w-full'>
-            Login
-          </Button>
-          <Button variant='outline' className='w-full'>
-            Login with Google
-          </Button>
-        </div>
-        <div className='mt-4 text-center text-sm'>
-          Don&apos;t have an account?{' '}
-          <Link href='/register' className='underline'>
-            Sign up
-          </Link>
-        </div>
+
+      <CardContent className='grid gap-4'>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2'>
+            <FInput form={form.control} name='username' label='Username' />
+
+            <FInput.Password form={form.control} name='password' />
+            <Button className='w-full' type='submit'>
+              Sign in
+            </Button>
+          </form>
+        </Form>
       </CardContent>
     </Card>
   )
 }
 
-export default LoginForm
+function SignIn() {
+  return (
+    <div className='flex min-h-screen items-center justify-center'>
+      <LoginForm />
+    </div>
+  )
+}
+
+export default SignIn
