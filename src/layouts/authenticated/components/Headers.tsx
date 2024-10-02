@@ -1,3 +1,4 @@
+import { ThemeToggle } from '@nextshad/components/molecules'
 import { Button } from '@nextshad/components/ui/button'
 import {
   DropdownMenu,
@@ -8,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@nextshad/components/ui/dropdown-menu'
 import { Input } from '@nextshad/components/ui/input'
+import { siteConfig } from '@nextshad/config/site'
 import { CircleUser, Package2, Search } from 'lucide-react'
 import Link from 'next/link'
 
@@ -22,17 +24,18 @@ function Header() {
           <span className='sr-only'>Acme Inc</span>
         </Link>
 
-        <Link
-          href='/dashboard'
-          className='text-foreground transition-colors hover:text-foreground'>
-          Dashboard
-        </Link>
-
-        <Link
-          href='#'
-          className='text-muted-foreground transition-colors hover:text-foreground'>
-          Products
-        </Link>
+        {siteConfig.menu.length > 0
+          ? siteConfig.menu.map((item) => {
+              return (
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  className='text-foreground transition-colors hover:text-foreground'>
+                  {item.title}
+                </Link>
+              )
+            })
+          : null}
       </nav>
 
       <div className='flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4'>
@@ -46,6 +49,7 @@ function Header() {
             />
           </div>
         </form>
+        <ThemeToggle />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant='secondary' size='icon' className='rounded-full'>
